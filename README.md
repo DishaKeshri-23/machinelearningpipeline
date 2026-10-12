@@ -35,3 +35,22 @@ Goals:
 Reproducibility - By using DVC,the pipeline ensures that the same data, parameters, and code can reproduce the same results, making the workflow reliable & consistent.
 
 Experimentation - MLFlOW allow users to easily track different experiements(with varying hyperparameters) and compare the performance of models.
+
+FOR ADDING STAGES
+
+1st Stage - Preprocess
+dvc stage add -n preprocess
+-p preprocess.input,preprocess.output
+-d src/preprocess.py -d data/raw/data.csv
+-o data/processed/data.csv
+python src/preprocess.py
+
+2nd Stage - Train
+-p train.data,train.model,train.random_state,train.n_estimators,train.max_depth
+-d src/train.py -d data/raw/data.csv
+-o models/model.pkl
+python src/train.py
+
+3rd Stage - Evaluate
+-d src/evaluate.py -d models/model.pkl -d data/raw/data.csv
+python src evaluate.py
